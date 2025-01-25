@@ -13,5 +13,14 @@
     "deploy": "git subtree push --prefix dist origin gh-pages",
     "build": "webpack --config webpack.prod.js",
     "start": "webpack serve --open --config webpack.dev.js"
+  },
+  "name": "todolist",
+  "version": "1.0.0",
+  "main": "webpack.common.js",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "date-fns": "^4.1.0"
   }
 }
