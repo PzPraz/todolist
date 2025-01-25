@@ -7,20 +7,70 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="m435.33-250 228-228L618-523.33l-183 183L338.33-437l-45 45 142 142ZM226.67-80q-27 0-46.84-19.83Q160-119.67 160-146.67v-666.66q0-27 19.83-46.84Q199.67-880 226.67-880H574l226 226v507.33q0 27-19.83 46.84Q760.33-80 733.33-80H226.67Zm314-542.67v-190.66h-314v666.66h506.66v-476H540.67Zm-314-190.66v190.66-190.66 666.66-666.66Z"/></svg></div>
+        <div class="logo"><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="m435.33-250 228-228L618-523.33l-183 183L338.33-437l-45 45 142 142ZM226.67-80q-27 0-46.84-19.83Q160-119.67 160-146.67v-666.66q0-27 19.83-46.84Q199.67-880 226.67-880H574l226 226v507.33q0 27-19.83 46.84Q760.33-80 733.33-80H226.67Zm314-542.67v-190.66h-314v666.66h506.66v-476H540.67Zm-314-190.66v190.66-190.66 666.66-666.66Z"/></svg></div>
         <h1 class="page-name">Todo List</h1>
     </header>
     <div id="content">
         <aside class="sidebar">
             <div class="general-tasks">
-                <ul>
-                    <li class="all-tasks"><button class="all-tasks-btn">Tasks</button></li>
-                    <li class="today-tasks"><button class="today-btn">Today</button></li>
-                    <li class="week-tasks"><button class="week-btn">This Week</button></li>
-                    <li class="month-tasks"><button class="month-btn">This Month</button></li>
-                </ul>
+                    <div class="all-tasks"><button class="all-tasks-btn task-btn">Tasks</button></div>
+                    <div class="today-tasks"><button class="today-btn task-btn">Today</button></div>
+                    <div class="week-tasks"><button class="week-btn task-btn">This Week</button></div>
+                    <div class="month-tasks"><button class="month-btn task-btn">This Month</button></div>
+            </div>
+            <div class="project-lists">
+                <h1>Project</h1>
+                <button class="project-btn task-btn">makan</button>
+                <button class="add-project task-btn">Add Project</button>
+                <form action="" id="add-project-form" class="">
+                    <input type="text" placeholder="Project name" id="add-project-name">
+                    <div class="btn-control">
+                        <button type="submit" class="submit-project-btn">Add</button>
+                        <button class="cancel-btn">Cancel</button>
+                    </div>
+                </form>
             </div>
         </aside>
+        <div class="project-previews">
+            <h1 class="project-title">All Tasks</h1>
+            <div class="project-preview-lists">
+                <div class="task-preview">
+                    <div class="task-name">Makan Malam</div>
+                    <div class="task-control-btn">
+                        <button class="more-details-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+                        <button class="remove-task-btn">X</button>
+                    </div>
+                    
+                </div>
+            </div>
+
+                <button class="add-project-tasks-btn">Add Tasks</button>
+                <form action="" class="add-project-task-form hide">
+                <input type="text" id="name" name="name" placeholder="Name">   
+                <input type="date" name="dueDate" id="dueDate">
+                <textarea name="details" id="" placeholder="Task Details" readonly="readonly" cols=""></textarea>
+                <div class="task-control-btn">
+                    <button type="submit" class="task-submit">Add</button>
+                    <button class="cancel-task-btn">Cancel</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    <div class="overlay hide"></div>
+    </div>
+    <div class="task-details-pop-up hide">
+        <div class="task-name-box">
+            <h2>Task Name</h2>
+            <span class="task-name">Makan</span>
+        </div>
+        <div class="task-duedate-box">
+            <h2>Due Date</h2>
+            <span class="task-duedate">29 - 12 - 2025</span>
+        </div>
+        <div class="task-details-box">
+            <h2>Details</h2>
+            <span class="task-details">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias fugiat voluptatem earum eos possimus, consequatur beatae suscipit culpa aliquid incidunt distinctio cum similique inventore ea minima ullam modi et cumque fugit. Quam minima quas ea eum corrupti perspiciatis voluptate at? Ipsum earum necessitatibus distinctio animi repellat, nihil optio eos culpa.</span>
+        </div>
     </div>
 </body>
 </html>
