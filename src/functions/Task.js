@@ -85,8 +85,8 @@ function createTaskManager() {
             return this.getTasksByCategory('month')
         },
 
-        toggleComplete(taskName) {
-            const task = this.tasks.find(t => t.name === taskName);
+        toggleComplete(id) {
+            const task = this.tasks.find(t => t.id === id);
             task.isComplete =  task.isComplete ? false :  true
 
         },
@@ -145,6 +145,10 @@ function createTaskManager() {
             const project = this.projects.find(p => p.name === projectName)
 
             return project
+        },
+
+        getTaskById(id){
+            return this.tasks.find(t => t.id === id)
         },
 
         saveToJson() {

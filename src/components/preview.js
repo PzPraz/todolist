@@ -235,11 +235,12 @@ function createTaskDetailsPopUp(){
 
     const isCompleteButton = createElementWithClasses('button', 'is-task-complete-btn')
     isCompleteButton.addEventListener('click', (e) => {
-        const taskName = select('.task-name-popup').textContent
+        const taskElement = e.currentTarget.parentElement.firstChild.lastElementChild
+        const taskId = taskElement.getAttribute('data-task-id');
         const task = Task.getTask('', taskName)
 
-        Task.toggleComplete(taskName)
-        setTaskDetailsPopUp(task)
+        Task.toggleComplete(taskId)
+        setTaskDetailsPopUp(Task.getTaskById(taskId))
     })
 
 
@@ -270,6 +271,7 @@ function setTaskDetailsPopUp(task){
     clearTaskDetailsPopUp()
 
     const taskName = select('.task-name-popup')
+    taskName.setAttribute('data-task-id', task.id)
     const dueDate = select('.task-duedate')
     const taskDetails = select('.task-details')
     const isCompleteButton = select('.is-task-complete-btn')
