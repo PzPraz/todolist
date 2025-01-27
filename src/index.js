@@ -2,20 +2,29 @@ import './reset.css'
 import './styles.css'
 
 import { Task } from "./functions/Task.js";
-import {select} from './functions/domHelpers.js'
-
-
+import { createGeneralTasks } from './components/preview.js';
+import { createHeader } from './components/header.js';
+import { createContent } from './functions/UI.js';
+import {createSidebar} from './components/sidebar.js'
+import { createPreview, createProjectPreview, updateTaskLists, createOverlay, createTaskDetailsPopUp} from './components/preview.js';
+import { updateProjectLists } from './components/sidebar.js';
 //only for debugging purposes
 window.Task = Task
-
+window.updateTask = updateTaskLists
 //
 
-const projectForm = select('#add-project-form')
-const addProjectBtn = select('.add-project')
+const savedData = localStorage.getItem('taskManagerData'); // Retrieve from local storage or a server
+if (savedData) {
+    Task.loadFromJson(savedData);
+}
 
-addProjectBtn.addEventListener('click', () => {
-    addProjectBtn.classList.add('hide')
-    projectForm.classList.add('show')
-    projectForm.classList.remove('hide')
-})
 
+createHeader()
+createContent()
+createSidebar()
+createPreview()
+createOverlay()
+createTaskDetailsPopUp()
+updateProjectLists()
+
+createGeneralTasks(Task.tasks, 'All Tasks')

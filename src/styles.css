@@ -24,7 +24,7 @@ header{
     gap: 1rem;
 }
 
-#content{
+.content{
     display: flex;
     min-height: calc(100vh - 140px);
 }
@@ -52,10 +52,6 @@ header{
     background-color: #b2b2b2;
 }
 
-.project-lists{
-    margin-top: 1rem;
-}
-
 #add-project-name{
     width: 100%;
 }
@@ -73,16 +69,16 @@ header{
     width: 100%;
     padding: 0.2rem;
     border: none;
+    font-weight: bold;
 }
 
 .submit-project-btn{
-    background-color: #4CAF50;
-    color: #555555;
-    
+    background-color: #4CAF50;    
 }
 
 .cancel-btn{
     background-color: #FF6F61;
+
 }
 
 .project-previews{
@@ -91,11 +87,24 @@ header{
     padding: 2rem 1rem;
 }
 
+.project-element{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+
 .add-project-tasks-btn{
     border: none;
     background-color: transparent;
     font-size: 1.5rem;
+    margin-top: 0.5rem;
     text-align: left;
+    padding: 0.5rem;
+}
+
+#add-project-form{
     padding: 0.5rem;
 }
 
@@ -114,6 +123,20 @@ header{
     padding: 0.75rem;
 }
 
+
+
+.remove-project-btn, .project-btn{
+    border: none;
+    background-color: transparent;
+    padding: 0.5rem;
+}
+
+.project-btn{
+    flex: 1;
+    text-align: start;
+
+}
+
 .project-preview-lists{
     margin-top: 1rem;
 }
@@ -123,7 +146,6 @@ header{
     background: transparent;
     width: 15%;
     padding: 0.5rem;
-
     background-color:#4CAF50;
     color: white;
     border-radius: 5px;
@@ -151,17 +173,20 @@ header{
     align-items: center;
 }
 
+.project-header{
+    margin-top: 1rem;
+}
+
 .task-control-btn{
-    width: 10%;
     display: flex;
     gap: 0.5rem;
 }
 
 .task-control-btn button{
     border: none;
-    background-color: transparent;
     padding: 1rem;
     flex: 1;
+    background-color: transparent;
 }
 
 .task-control-btn button:hover{
@@ -190,12 +215,38 @@ header{
 }
 
 
-.more-details-btn svg{
+.more-details-btn svg, .remove-task-button svg{
     color: white;
     height: 1.5rem;
     width: 1.5rem;
 }
 
+
+.add-task-control-btn{
+    display: flex;
+
+    gap: 0.5rem;
+}
+
+.is-task-complete-btn{
+    padding: 0.5rem;
+    margin-top: 1rem                                                                                                                                                                                                                                                                            ;
+    background-color:#FF6F61;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    width: 30%;
+}
+
+.remove-project-btn svg{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.completed{
+    background-color:#4CAF50;
+}
 
 textarea{
     padding: 0.75rem;

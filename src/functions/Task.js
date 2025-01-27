@@ -1,8 +1,33 @@
 import { isToday, isThisWeek, isThisMonth, parseISO } from 'date-fns'
+import { id } from 'date-fns/locale';
+
+function generateUniqueID() {
+    return 'task_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+}
+
+const starterID = generateUniqueID()
+console.log(starterID)
+
+
 function createTaskManager() {
     return {
-        tasks: [],
-        projects: [],
+        tasks: [{
+                name:'HEYYA!!', 
+                duedate:'2000-3-15', 
+                isComplete: false, 
+                details: `I'm the creator of this website`, 
+                categories: null,
+                project: 'Getting Started', 
+                id: starterID}],
+
+        projects: [{name: 'Getting Started',
+                    tasks: [{name:'HEYYA!!', 
+                            duedate:'2000-3-15', 
+                            isComplete: false, 
+                            details: `I'm the creator of this website`, 
+                            categories: null, 
+                            project: 'Getting Started', 
+                            id: starterID}]}],
         
         addTask(taskName, duedate, taskDetails, projectName){
             const task = {
@@ -11,7 +36,8 @@ function createTaskManager() {
                 isComplete: false,
                 details: taskDetails,
                 categories: this.categorizeTask({ duedate: parseISO(duedate) }),
-                project: projectName
+                project: projectName,
+                id: generateUniqueID()
             };
 
             this.tasks.push(task);
@@ -23,6 +49,24 @@ function createTaskManager() {
                 }
             }
 
+        },
+        
+        getTask(projectName, taskName){
+            const project = this.projects.find(p => p.name === projectName)
+
+            if(!project){
+                return Task.tasks.find(t => t.name === taskName)
+            }
+
+            return project.tasks.find(t => t.name === taskName)
+
+        },
+
+        removeTaskById(id){
+            this.tasks = this.tasks.filter(t => t.id !== id)
+            this.projects.forEach(p => {
+                p.tasks = p.tasks.filter(t => t.id !== id)
+            })
         },
         
         getTasksByCategory(category) {
@@ -41,13 +85,21 @@ function createTaskManager() {
             return this.getTasksByCategory('month')
         },
 
-        completeTask(taskName) {
+        toggleComplete(taskName) {
             const task = this.tasks.find(t => t.name === taskName);
-            if (task) task.isComplete = true;
+            task.isComplete =  task.isComplete ? false :  true
+
         },
         
-        removeTask(taskName){
-            this.tasks = this.tasks.filter(task => task.name !== taskName);
+        removeTask(projectName, taskName){
+            const project = this.findProject(projectName)
+            if (project){
+                this.tasks = this.tasks.filter(task => task.name !== taskName && task.project !== project)
+            } else {
+                this.tasks = this.tasks.filter(task => task.name !== taskName)
+            }
+        
+    
         },
 
         categorizeTask(task) {
@@ -79,13 +131,59 @@ function createTaskManager() {
         removeProjectTasks(projectName, taskName){
             const project = this.projects.find(p => p.name === projectName)
 
-            project.tasks = project.tasks.filter(task => task.name !== taskName);
+            if(project){
+                project.tasks = project.tasks.filter(task => task.name !== taskName);
+            }
         },
         
         removeProject(projectName){
             this.projects = this.projects.filter(p => p.name !== projectName)
             this.tasks = this.tasks.filter(task => task.project !== projectName)
-        }
+        },
+
+        findProject(projectName){
+            const project = this.projects.find(p => p.name === projectName)
+
+            return project
+        },
+
+        saveToJson() {
+            const data = {
+                tasks: this.tasks.map(task => ({
+                    ...task,
+                    duedate: task.duedate.toISOString() // Convert date to ISO string for JSON compatibility
+                })),
+                projects: this.projects.map(project => ({
+                    ...project,
+                    tasks: project.tasks.map(task => ({
+                        ...task,
+                        duedate: task.duedate.toISOString()
+                    }))
+                }))
+            };
+        
+            return JSON.stringify(data);
+        },
+
+        loadFromJson(jsonString) {
+            const data = JSON.parse(jsonString);
+        
+            this.tasks = data.tasks.map(task => ({
+                ...task,
+                duedate: parseISO(task.duedate) // Convert ISO string back to a Date object
+            }));
+        
+            this.projects = data.projects.map(project => ({
+                ...project,
+                tasks: project.tasks.map(task => ({
+                    ...task,
+                    duedate: parseISO(task.duedate)
+                    // Ensure the task objects have the same structure
+                }))
+            }));
+        },
+        
+        
 
     }
 }
