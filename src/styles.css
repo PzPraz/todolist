@@ -108,7 +108,7 @@ header{
     padding: 0.5rem;
 }
 
-.add-project-task-form{
+.add-project-task-form, .edit-project-task-form{
     margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
@@ -139,9 +139,12 @@ header{
 
 .project-preview-lists{
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
 }
 
-.task-submit {
+.task-submit, .edit-task-submit {
     border: none;
     background: transparent;
     width: 15%;
@@ -167,8 +170,10 @@ header{
 }
 
 .task-preview{
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: white;
     display: flex;
+    border-radius: 5px;
     justify-content: space-between;
     align-items: center;
 }
@@ -189,11 +194,7 @@ header{
     background-color: transparent;
 }
 
-.task-control-btn button:hover{
-    background-color: #b2b2b2;
-}
-
-.task-details-pop-up{
+.task-details-pop-up, .edit-project-task-form{
     position: fixed;
     z-index: 1;
     top: 50%;
@@ -215,18 +216,31 @@ header{
 }
 
 
-.more-details-btn svg, .remove-task-button svg{
+.more-details-btn svg, .remove-task-button svg, .task-edit-btn svg{
     color: white;
     height: 1.5rem;
     width: 1.5rem;
 }
 
 
-.add-task-control-btn{
+.add-task-control-btn, .edit-task-control-btn{
     display: flex;
 
     gap: 0.5rem;
 }
+
+.priority-low{
+    background-color: #2196F3 ;
+}
+
+.priority-med{
+    background-color: #FFC107;
+}
+
+.priority-high{
+    background-color: #D32F2F   ;
+}
+
 
 .is-task-complete-btn{
     padding: 0.5rem;

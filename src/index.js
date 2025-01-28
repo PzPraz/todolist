@@ -6,7 +6,7 @@ import { createGeneralTasks } from './components/preview.js';
 import { createHeader } from './components/header.js';
 import { createContent } from './functions/UI.js';
 import {createSidebar} from './components/sidebar.js'
-import { createPreview, createProjectPreview, updateTaskLists, createOverlay, createTaskDetailsPopUp} from './components/preview.js';
+import { createPreview, createProjectPreview, createTaskEditForm, updateTaskLists, createOverlay, createTaskDetailsPopUp} from './components/preview.js';
 import { updateProjectLists } from './components/sidebar.js';
 //only for debugging purposes
 window.Task = Task
@@ -25,6 +25,7 @@ createSidebar()
 createPreview()
 createOverlay()
 createTaskDetailsPopUp()
+createTaskEditForm()
 updateProjectLists()
 
 createGeneralTasks(Task.tasks, 'All Tasks')
