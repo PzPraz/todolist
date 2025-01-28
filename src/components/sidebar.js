@@ -1,8 +1,10 @@
 import {show, hide, create, select, addClass, setText, clearContent, createElementWithClasses, append} from '../functions/domHelpers.js'
 import { handleProjectFormSubmit, handleProjectFormCancel } from '../logic/projectFormHandlers'
-import { createProjectPreview, createGeneralTasks } from './preview.js'
+import { createProjectPreview, createGeneralTasks, updateProjectTaskLists } from './preview.js'
 import { Task } from '../functions/Task.js'
 
+
+//create the sidebar
 function createSidebar(){
     const content = select('.content')
     const sidebar = createElementWithClasses('aside', 'sidebar')
@@ -15,13 +17,14 @@ function createSidebar(){
     append(content, sidebar)
 }
 
+//create general task section for the sidebar
 function createGeneralTaskSection(){
     const generalTasks = createElementWithClasses('div', 'general-tasks');
 
-    const allTasksBox = createTaskBox('Tasks', 'all-tasks', 'All Tasks', () => Task.tasks);
-    const todayTasksBox = createTaskBox('Today', 'today-tasks', 'Today', () => Task.getTasksByCategory('today'));
-    const weekTasksBox = createTaskBox('This Week', 'week-tasks', 'This Week', () => Task.getTasksByCategory('week'));
-    const monthTasksBox = createTaskBox('This Month', 'month-tasks', 'This Month', () => Task.getTasksByCategory('month'));
+    const allTasksBox = createTaskBox('Tasks', 'all-tasks', 'All Tasks');
+    const todayTasksBox = createTaskBox('Today', 'today-tasks', 'Today');
+    const weekTasksBox = createTaskBox('This Week', 'week-tasks', 'This Week');
+    const monthTasksBox = createTaskBox('This Month', 'month-tasks', 'This Month');
 
     append(generalTasks, allTasksBox);
     append(generalTasks, todayTasksBox);
@@ -31,36 +34,27 @@ function createGeneralTaskSection(){
     return generalTasks;
 }
 
-function createTaskBox(label, className, title, getTasksCallback) {
+//create task box for the general section
+function createTaskBox(label, className, title) {
     const taskBox = createElementWithClasses('div', className);
     const taskButton = createTaskButton(label, `${className}-button`);
 
     taskButton.addEventListener('click', (e) => {
         e.preventDefault();
-        createGeneralTasks(getTasksCallback(), title);
+        createGeneralTasks(title);
     });
 
     append(taskBox, taskButton);
     return taskBox;
 }
 
-
+//create project section for the sidebar
 function createProjectSidebar(){
     const projectSidebar = createElementWithClasses('div', 'project-sidebar')
 
-    const projectHeader = create('h1')
-    setText(projectHeader, 'Project')
-    addClass(projectHeader, 'project-header')
-
+    const projectHeader = createProjectHeader()
     const projectLists = createElementWithClasses('div', 'project-lists')
-
-    const addProjectButton = createTaskButton('Add Project', 'add-project')
-    addProjectButton.addEventListener('click', (e) => {
-        const projectForm = select('#add-project-form')
-        show(projectForm)
-        hide(e.target)
-    })
-    
+    const addProjectButton = createAddProjectButton()
     const addProjectForm = createProjectForm()
 
     append(projectSidebar, projectHeader)
@@ -72,6 +66,22 @@ function createProjectSidebar(){
 
 }
 
+function createProjectHeader(){
+    const projectHeader = create('h1')
+    setText(projectHeader, 'Project')
+    addClass(projectHeader, 'project-header')
+    return projectHeader
+}
+
+function createAddProjectButton(){
+    const addProjectButton = createTaskButton('Add Project', 'add-project')
+    addProjectButton.addEventListener('click', (e) => {
+        const projectForm = select('#add-project-form')
+        show(projectForm)
+        hide(e.target)
+    })
+    return addProjectButton
+}
 
 
 function createTaskButton(text, className){
@@ -93,21 +103,7 @@ function createProjectForm(){
     inputProjectName.setAttribute('type', 'text')
     inputProjectName.setAttribute('placeholder', 'Project name')
 
-    const projectControl = createElementWithClasses('div','btn-control')
-    const submitProjectButton = createElementWithClasses('button', 'submit-project-btn')
-    submitProjectButton.setAttribute('type', 'submit')
-    setText(submitProjectButton, 'Add')
-
-
-    const cancelProjectButton = createElementWithClasses('button', 'cancel-btn')
-    cancelProjectButton.setAttribute('type', 'button')
-    cancelProjectButton.addEventListener('click', (e) => {
-        handleProjectFormCancel(e)
-    })
-    setText(cancelProjectButton, 'Cancel')
-
-    append(projectControl, submitProjectButton)
-    append(projectControl, cancelProjectButton)
+    const projectControl = createProjectControl()
 
     append(projectForm, inputProjectName)
     append(projectForm, projectControl)
@@ -117,15 +113,49 @@ function createProjectForm(){
     })
 
     return projectForm
+}
+
+function createProjectControl(){
+    const projectControl = createElementWithClasses('div','btn-control')
+
+    const submitProjectButton = createControlButton('Add', 'submit-project-btn', 'submit')
+    const cancelProjectButton = createControlButton('Cancel', 'cancel-btn', 'button', handleProjectFormCancel)
+
+    append(projectControl, submitProjectButton)
+    append(projectControl, cancelProjectButton)
+
+    return projectControl
+}
+
+function createControlButton(text, className, type, clickHandler){
+    const button = createElementWithClasses('button', className)
+    button.setAttribute('type', type)
+    setText(button, text)
+
+    if(clickHandler){
+        button.addEventListener('click', clickHandler)
+    }
+
+    return button
 
 }
 
 function removeProject(e){
+    const currentProject = select('.project-title').textContent
     const projectName = e.currentTarget.parentElement.firstChild.textContent
     Task.removeProject(projectName)
     const jsonData = Task.saveToJson()
     localStorage.setItem('taskManagerData', jsonData)
     updateProjectLists()
+    
+
+    //if we are deleting the currently viewing project, redirect it to home page
+    if(currentProject === projectName){
+        createGeneralTasks('All Tasks')
+        return
+    }
+
+    updateProjectTaskLists(currentProject)
 }
 
 function setProjectPreview(e){

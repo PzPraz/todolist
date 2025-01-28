@@ -6,8 +6,9 @@ import { createGeneralTasks } from './components/preview.js';
 import { createHeader } from './components/header.js';
 import { createContent } from './functions/UI.js';
 import {createSidebar} from './components/sidebar.js'
-import { createPreview, createProjectPreview, createTaskEditForm, updateTaskLists, createOverlay, createTaskDetailsPopUp} from './components/preview.js';
+import { createPreview, createTaskEditForm, updateTaskLists, createOverlay, createTaskDetailsPopUp} from './components/preview.js';
 import { updateProjectLists } from './components/sidebar.js';
+
 //only for debugging purposes
 window.Task = Task
 window.updateTask = updateTaskLists
@@ -28,4 +29,4 @@ createTaskDetailsPopUp()
 createTaskEditForm()
 updateProjectLists()
 
-createGeneralTasks(Task.tasks, 'All Tasks')
+createGeneralTasks('All Tasks')
