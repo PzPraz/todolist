@@ -30,6 +30,8 @@ function handleTaskFormCancel(e){
 }
 
 function handleTaskEdit(e){
+    e.preventDefault
+    
     const overlay = select('.overlay')
     const taskElement = e.currentTarget
     const projectName = select('.project-title').textContent
@@ -58,6 +60,9 @@ function handleTaskEdit(e){
     } else {
         updateTaskLists(Task.getProjectTasks(projectName))
     }
+
+    const jsonData = Task.saveToJson()
+    localStorage.setItem('taskManagerData', jsonData)
 }
 
 

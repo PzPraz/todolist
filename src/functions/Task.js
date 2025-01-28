@@ -115,7 +115,7 @@ function createTaskManager() {
                     ...task,
                     duedate: task.duedate.toISOString() // Convert to ISO string
                 })),
-                projects: this.projects // Projects remain simple
+                projects: this.projects 
             };
             return JSON.stringify(data);
         },
@@ -126,7 +126,7 @@ function createTaskManager() {
                 ...task,
                 duedate: parseISO(task.duedate) // Convert ISO string back to Date
             }));
-            this.projects = data.projects; // Simple assignment
+            this.projects = data.projects; 
         },
         
         

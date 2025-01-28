@@ -1,6 +1,6 @@
 import { show, hide, create, select, addClass, setText, clearContent, createElementWithClasses, append} from '../functions/domHelpers.js'
 import { Task } from '../functions/Task.js'
-import { handleTaskEdit, handleTaskFormSubmit, handletaskedi } from '../logic/taskFormHandlers.js'
+import { handleTaskEdit, handleTaskFormSubmit} from '../logic/taskFormHandlers.js'
 import { format } from 'date-fns'
 
 function createGeneralTasks(tasks, title){
@@ -408,7 +408,6 @@ function createTaskEditForm(){
     append(form, taskControlButton)
 
     form.addEventListener('submit', (e) => {
-        e.preventDefault()
         const editTaskForm = e.target
         handleTaskEdit(e)
         hide(editTaskForm)

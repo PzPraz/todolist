@@ -1,59 +1,52 @@
 import {show, hide, create, select, addClass, setText, clearContent, createElementWithClasses, append} from '../functions/domHelpers.js'
 import { handleProjectFormSubmit, handleProjectFormCancel } from '../logic/projectFormHandlers'
-import { createProjectPreview, createPreviewByDate, updateTaskLists, createGeneralTasks } from './preview.js'
+import { createProjectPreview, createGeneralTasks } from './preview.js'
 import { Task } from '../functions/Task.js'
-
-
 
 function createSidebar(){
     const content = select('.content')
     const sidebar = createElementWithClasses('aside', 'sidebar')
-    const generalTasks = createElementWithClasses('div', 'general-tasks')
-    const projectSidebar = createElementWithClasses('div', 'project-sidebar')
     
-    //general tasks part of the sidebar
-    const allTasksBox = createElementWithClasses('div', 'all-tasks')
-    const allTasksButton = createTaskButton('Tasks', 'all-tasks-button')
-    allTasksButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        createGeneralTasks(Task.tasks, 'All Tasks')
-    })
-
-    const todayTasksBox = createElementWithClasses('div', 'today-tasks')
-    const todayTasksButton = createTaskButton('Today', 'today-btn')
-    todayTasksButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        createGeneralTasks(Task.getTasksByCategory('today'), 'Today')
-    })
-
-    const weekTasksBox = createElementWithClasses('div', 'week-tasks')
-    const weekTasksButton = createTaskButton('This Week', 'week-btn')
-    weekTasksButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        createGeneralTasks(Task.getTasksByCategory('week'), 'This Week')
-    })
-
-    const monthTasksBox = createElementWithClasses('div', 'month-tasks')
-    const monthTasksButton = createTaskButton('This Month', 'month-btn')
-    monthTasksButton.addEventListener('click', (e) => {
-        e.preventDefault()
-        createGeneralTasks(Task.getTasksByCategory('month'), 'This Month')
-    })
-
-    append(allTasksBox, allTasksButton)
-    append(todayTasksBox, todayTasksButton)
-    append(weekTasksBox, weekTasksButton)
-    append(monthTasksBox, monthTasksButton)
-
-    append(generalTasks, allTasksBox)
-    append(generalTasks, todayTasksBox)
-    append(generalTasks, weekTasksBox)
-    append(generalTasks, monthTasksBox)
-
+    const projectSidebar = createProjectSidebar()
+    const generalTasks = createGeneralTaskSection()
+    
     append(sidebar, generalTasks)
+    append(sidebar, projectSidebar)
     append(content, sidebar)
+}
 
-    //make project part of the sidebar
+function createGeneralTaskSection(){
+    const generalTasks = createElementWithClasses('div', 'general-tasks');
+
+    const allTasksBox = createTaskBox('Tasks', 'all-tasks', 'All Tasks', () => Task.tasks);
+    const todayTasksBox = createTaskBox('Today', 'today-tasks', 'Today', () => Task.getTasksByCategory('today'));
+    const weekTasksBox = createTaskBox('This Week', 'week-tasks', 'This Week', () => Task.getTasksByCategory('week'));
+    const monthTasksBox = createTaskBox('This Month', 'month-tasks', 'This Month', () => Task.getTasksByCategory('month'));
+
+    append(generalTasks, allTasksBox);
+    append(generalTasks, todayTasksBox);
+    append(generalTasks, weekTasksBox);
+    append(generalTasks, monthTasksBox);
+
+    return generalTasks;
+}
+
+function createTaskBox(label, className, title, getTasksCallback) {
+    const taskBox = createElementWithClasses('div', className);
+    const taskButton = createTaskButton(label, `${className}-button`);
+
+    taskButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        createGeneralTasks(getTasksCallback(), title);
+    });
+
+    append(taskBox, taskButton);
+    return taskBox;
+}
+
+
+function createProjectSidebar(){
+    const projectSidebar = createElementWithClasses('div', 'project-sidebar')
 
     const projectHeader = create('h1')
     setText(projectHeader, 'Project')
@@ -70,14 +63,16 @@ function createSidebar(){
     
     const addProjectForm = createProjectForm()
 
-    append(sidebar, projectHeader)
+    append(projectSidebar, projectHeader)
     append(projectSidebar, projectLists)
     append(projectSidebar, addProjectButton)
     append(projectSidebar, addProjectForm)
 
-    append(sidebar, projectSidebar)
+    return projectSidebar
 
 }
+
+
 
 function createTaskButton(text, className){
     const button = createElementWithClasses('button', className)
