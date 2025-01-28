@@ -2,6 +2,7 @@ import { show, hide, create, select, addClass, setText, clearContent, createElem
 import { Task } from '../functions/Task.js'
 import { handleTaskEdit, handleTaskFormSubmit} from '../logic/taskFormHandlers.js'
 import { format } from 'date-fns'
+import { dateFormatted } from '../functions/formattingDateHelper.js'
 
 function createGeneralTasks(title){
     const projectPreviews = select('.project-previews')    
@@ -184,12 +185,16 @@ function showTaskDetailsPopUp(e){
 
 function createTaskPreview(task){
     const taskPreview = createElementWithClasses('div', 'task-preview')
+    const taskDueDate = createElementWithClasses('span', 'task-info-duedate' )
     const taskName = createElementWithClasses('div', 'task-name')
     const taskControlButton = createElementWithClasses('div', 'task-control-btn')
     const moreDetailsButton = createElementWithClasses('button', 'more-details-btn')
     const removeTaskButton = createElementWithClasses('button', 'remove-task-button')
     const taskEditButton = createElementWithClasses('button', 'task-edit-btn')
 
+    const formattedDate = dateFormatted(task.duedate)
+
+    setText(taskDueDate, formattedDate)
     setText(taskName, task.name)
     removeTaskButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="M267.33-120q-27.5 0-47.08-19.58-19.58-19.59-19.58-47.09V-740H160v-66.67h192V-840h256v33.33h192V-740h-40.67v553.33q0 27-19.83 46.84Q719.67-120 692.67-120H267.33Zm425.34-620H267.33v553.33h425.34V-740Zm-328 469.33h66.66v-386h-66.66v386Zm164 0h66.66v-386h-66.66v386ZM267.33-740v553.33V-740Z"/></svg>`
     moreDetailsButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="M448.67-280h66.66v-240h-66.66v240Zm31.32-316q15.01 0 25.18-9.97 10.16-9.96 10.16-24.7 0-15.3-10.15-25.65-10.16-10.35-25.17-10.35-15.01 0-25.18 10.35-10.16 10.35-10.16 25.65 0 14.74 10.15 24.7 10.16 9.97 25.17 9.97Zm.19 516q-82.83 0-155.67-31.5-72.84-31.5-127.18-85.83Q143-251.67 111.5-324.56T80-480.33q0-82.88 31.5-155.78Q143-709 197.33-763q54.34-54 127.23-85.5T480.33-880q82.88 0 155.78 31.5Q709-817 763-763t85.5 127Q880-563 880-480.18q0 82.83-31.5 155.67Q817-251.67 763-197.46q-54 54.21-127 85.84Q563-80 480.18-80Zm.15-66.67q139 0 236-97.33t97-236.33q0-139-96.87-236-96.88-97-236.46-97-138.67 0-236 96.87-97.33 96.88-97.33 236.46 0 138.67 97.33 236 97.33 97.33 236.33 97.33ZM480-480Z"/></svg>`
@@ -215,6 +220,8 @@ function createTaskPreview(task){
     append(taskControlButton, removeTaskButton)
     
     append(taskPreview, taskName)
+    append(taskPreview, taskDueDate)
+
     append(taskPreview, taskControlButton)
 
     return taskPreview
@@ -310,14 +317,7 @@ function setTaskDetailsPopUp(task){
     const taskDetails = select('.task-details')
     const isCompleteButton = select('.is-task-complete-btn')
 
-    const date = new Date(task.duedate);
-
-    // Use `toLocaleDateString` for a readable format
-    const formattedDate = date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    });
+    const formattedDate = dateFormatted(task.duedate)
 
     setText(taskName, task.name)
     setText(dueDate, formattedDate)
