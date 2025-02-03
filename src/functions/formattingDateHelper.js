@@ -1,14 +1,14 @@
-function dateFormatted(duedate){
-    const date = new Date(duedate);
+function dateFormatted(duedate) {
+  const date = new Date(duedate);
 
-    // Use `toLocaleDateString` for a readable format
-    const formattedDate = date.toLocaleDateString("en-US", {
+  // Use `toLocaleDateString` for a readable format
+  const formattedDate = date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-    });
+  });
 
-    return formattedDate
+  return formattedDate;
 }
 
-export {dateFormatted}
+export { dateFormatted };

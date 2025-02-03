@@ -1,36 +1,35 @@
-import { Task } from '../functions/Task.js';
-import { select, hide, show } from '../functions/domHelpers.js';
-import { updateProjectLists } from '../components/sidebar.js';
+import { Task } from "../functions/Task.js";
+import { select, hide, show } from "../functions/domHelpers.js";
+import { updateProjectLists } from "../components/sidebar.js";
 
-function handleProjectFormSubmit(e){
-    e.preventDefault()
+function handleProjectFormSubmit(e) {
+  e.preventDefault();
 
-    const projectName = select('#add-project-name').value
-    Task.addProject(projectName)
-    
-    const addProjectBtn = select('.add-project')
-    show(addProjectBtn)
-    hide(e.target)
+  const projectName = select("#add-project-name").value;
+  Task.addProject(projectName);
 
-    updateProjectLists()
+  const addProjectBtn = select(".add-project");
+  show(addProjectBtn);
+  hide(e.target);
 
-    const jsonData = Task.saveToJson()
-    localStorage.setItem('taskManagerData', jsonData)
+  updateProjectLists();
 
-    e.target.reset()
+  const jsonData = Task.saveToJson();
+  localStorage.setItem("taskManagerData", jsonData);
+
+  e.target.reset();
 }
 
-function handleProjectFormCancel(e){
-    e.preventDefault();
+function handleProjectFormCancel(e) {
+  e.preventDefault();
 
-    const projectForm = select('#add-project-form');
-    const addProjectButton = select('.add-project');
+  const projectForm = select("#add-project-form");
+  const addProjectButton = select(".add-project");
 
-    show(addProjectButton);
-    hide(projectForm);
-    
+  show(addProjectButton);
+  hide(projectForm);
 
-    projectForm.reset();
+  projectForm.reset();
 }
 
-export { handleProjectFormSubmit, handleProjectFormCancel }
+export { handleProjectFormSubmit, handleProjectFormCancel };
